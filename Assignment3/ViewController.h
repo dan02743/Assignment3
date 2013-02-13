@@ -18,7 +18,12 @@
 
 @property (nonatomic, weak) IBOutlet UIButton * selectAll;
 
+@property (nonatomic, weak) IBOutlet UIButton * addFruit;
+
+@property (nonatomic, weak) IBOutlet UIButton * removeFruit;
+
 -(IBAction)selectAllOrNone:(id)sender;
+-(IBAction)enableOrDisableBtns:(id)sender;
 
 
 -(IBAction)removeAllFruitInCart:(id)sender;

@@ -18,8 +18,21 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    [self addFruitToCart];
+    [_addFruit setEnabled: NO];
+
     
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+- (void)addFruitToCart {
+    [super viewDidLoad];
     self.title = @"Bluth's Banana Stand";
     
     _allSelected = NO;
@@ -38,13 +51,6 @@
         [_cart addObject:anonFruit];
     }
     
-    
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -61,16 +67,30 @@
     [_cartView reloadData];
 }
 
+-(IBAction)enableOrDisableBtns:(id)sender
+{
+    if(_addFruit.isEnabled){
+        [_removeFruit setEnabled:YES];
+        [_addFruit setEnabled: NO];
+        
+    } else {
+        [_addFruit setEnabled:YES];
+        [_removeFruit setEnabled:NO];
+    }  
+}
+
 //Should remove all of the fruit in the cart.
 -(IBAction)removeAllFruitInCart:(id)sender
 {
-    
+    _cart = [NSMutableArray arrayWithCapacity:0];
+    [_cartView reloadData];
 }
 
 //should add 50 bananas to the cart and display them!
 -(IBAction)fillCartWithBananas:(id)sender
 {
-    
+    [self addFruitToCart];
+    [_cartView reloadData];
 }
 
 
@@ -88,6 +108,9 @@
 
 -(int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([_cart count] == 0){
+        return 1;
+    }
     return [_cart count];
 }
 
@@ -101,6 +124,7 @@
     if([_cart count] == 0){
         cell.textLabel.text = @"No Fruit in Cart";
         cell.detailTextLabel.text = @"";
+        cell.userInteractionEnabled = NO;
         
     } else {
         Fruit * tempFruit = [_cart objectAtIndex:indexPath.row];
